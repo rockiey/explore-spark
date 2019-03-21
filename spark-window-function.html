@@ -1,0 +1,1819 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>spark-window-function</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h1 id="toc_0">Spark Window Function</h1>
+
+<p><strong>Window</strong> (also, windowing or windowed) functions perform a calculation over a set of rows.
+It is an important tool to do statistics. Most Databases support Window functions. Spark from version 1.4 start supporting Window functions. </p>
+
+<p>Spark Window Functions have the following traits:</p>
+
+<ul>
+<li>perform a calculation over a group of rows, called the <strong>Frame</strong>.</li>
+<li>a frame corresponding to the current row</li>
+<li>return a new value to for each row by an aggregate/window function</li>
+<li>Can use SQL grammar or DataFrame API.</li>
+</ul>
+
+<p>Spark supports multiple programming languages as the frontends, Scala, Python, R, and other JVM languages. This article will only cover the usage of Window Functions with Scala DataFrame API. 
+It is very similar for Python DataFrame API, except few grammar differences.</p>
+
+<p>For the usage of Windows function with SQL API, please refer to normal SQL guide.</p>
+
+<h2 id="toc_1">Import all needed package</h2>
+
+<p>Few objects/classes will be used in the article. Just import them all here for simplicity.</p>
+
+<div><pre><code class="language-none">import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.functions._</code></pre></div>
+
+<h2 id="toc_2">Sample Dataset</h2>
+
+<p>The sample dataset has 4 columns, </p>
+
+<ul>
+<li><code>depName</code>: The department name, 3 distinct value in the dataset.</li>
+<li><code>empNo</code>: The identity number for the employee</li>
+<li><code>salary</code>: The salary of the employee. Most employees have different salaries. While some employees have the same salaries for some demo cases.</li>
+<li><code>hobby</code>: The list of hobbies of the employee. This is only used for some of the demos.</li>
+</ul>
+
+<p>Here is the sample dataset</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">hobby</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">[game, ski]</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">[game, ski]</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[skate, ski]</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[game, ski]</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">[climb, ski]</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">[game, ski]</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">[kajak, ski]</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">[game, kajak]</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[game, ski]</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[game, farming]</td>
+</tr>
+</tbody>
+</table>
+
+<p>The following code can be used to create the sample dataset</p>
+
+<div><pre><code class="language-none">case class Salary(depName: String, empNo: Long, name: String, salary: Long, hobby: Seq[String])
+val empsalary = Seq(
+  Salary(&quot;sales&quot;,     1,  &quot;Alice Johansson&quot;,  5000, List(&quot;game&quot;,  &quot;ski&quot;)),
+  Salary(&quot;personnel&quot;, 2,  &quot;Olivia Johansson&quot;, 3900, List(&quot;game&quot;,  &quot;ski&quot;)),
+  Salary(&quot;sales&quot;,     3,  &quot;Ella Andersson&quot;,   4800, List(&quot;skate&quot;, &quot;ski&quot;)),
+  Salary(&quot;sales&quot;,     4,  &quot;Ebba Karlsson&quot;,    4800, List(&quot;game&quot;,  &quot;ski&quot;)),
+  Salary(&quot;personnel&quot;, 5,  &quot;Lilly Andersson&quot;,  3500, List(&quot;climb&quot;, &quot;ski&quot;)),
+  Salary(&quot;develop&quot;,   7,  &quot;Astrid Johansson&quot;, 4200, List(&quot;game&quot;,  &quot;ski&quot;)),
+  Salary(&quot;develop&quot;,   8,  &quot;Saga Karlsson&quot;,    6000, List(&quot;kajak&quot;, &quot;ski&quot;)),
+  Salary(&quot;develop&quot;,   9,  &quot;Freja Nilsson&quot;,    4500, List(&quot;game&quot;,  &quot;kajak&quot;)),
+  Salary(&quot;develop&quot;,   10, &quot;Wilma Nilsson&quot;,    5200, List(&quot;game&quot;,  &quot;ski&quot;)),
+  Salary(&quot;develop&quot;,   11, &quot;Maja Nilsson&quot;,     5200, List(&quot;game&quot;,  &quot;farming&quot;))).toDS
+empsalary.createTempView(&quot;empsalary&quot;)
+empsalary.show()</code></pre></div>
+
+<h2 id="toc_3">Spark Functions</h2>
+
+<p>There are hundreds of <a href="https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.functions$">general spark functions</a> in which 
+<strong>Aggregate Functions</strong> and |<strong>Window Functions</strong> categories are related to this case. </p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Category Name</th>
+<th style="text-align: left">Input</th>
+<th style="text-align: left">Output</th>
+<th style="text-align: left">Example</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left"><strong>Aggregate Functions</strong></td>
+<td style="text-align: left">a group of rows</td>
+<td style="text-align: left">a single return value</td>
+<td style="text-align: left">avg,count,collect_list</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong>Window Functions - Ranking</strong></td>
+<td style="text-align: left">a single row + Window</td>
+<td style="text-align: left">a single return value</td>
+<td style="text-align: left">rank,denseRank,percentRank,ntile,rowNumber</td>
+</tr>
+<tr>
+<td style="text-align: left"><strong>Window Functions - Analytics</strong></td>
+<td style="text-align: left">a single row + Window</td>
+<td style="text-align: left">a single return value</td>
+<td style="text-align: left">cumeDist,firstValue,lastValue,lag,lead</td>
+</tr>
+</tbody>
+</table>
+
+<p>Functions in other categories are NOT applicable for Spark Window. </p>
+
+<p>The following example using the function <code>array_contains</code> which is in the category of collection functions. 
+Spark will throw out an exception when running it.</p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depName)
+val df = empsalary.withColumn(
+  &quot;average_salary_in_dep&quot;, array_contains(&#39;hobby, &quot;game&quot;) over overCategory).withColumn(
+  &quot;total_salary_in_dep&quot;, sum(&#39;salary) over overCategory)
+df.show()</code></pre></div>
+
+<h2 id="toc_4">Basic Frame with <code>partitionBy</code></h2>
+
+<p>A <strong>Basic Frame</strong> has the following traits.</p>
+
+<ul>
+<li>Created with <code>Window.partitionBy</code> on one or more columns</li>
+<li>Each row has a corresponding frame</li>
+<li>The frame will be the same for every row in the same within the same partition. (<strong>NOTE</strong>: This will NOT be the case with <strong>Ordered</strong> Frame)</li>
+<li>Aggregate/Window functions can be applied on each row+frame to generate a single value</li>
+</ul>
+
+<p><img src="basic-window.png" alt="basic-window-function"></p>
+
+<p>In the example, in the previous graph and the following code, we calculate </p>
+
+<ul>
+<li>using function <code>avg</code> to calculate average salary in a department </li>
+<li>using function <code>sum</code> to calculate total salary in a department</li>
+</ul>
+
+<p>Here is the sample code</p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depName)
+val df = empsalary.withColumn(
+  &quot;salaries&quot;, collect_list(&#39;salary) over overCategory).withColumn(
+  &quot;average_salary&quot;, (avg(&#39;salary) over overCategory).cast(&quot;int&quot;)).withColumn(
+  &quot;total_salary&quot;, sum(&#39;salary) over overCategory).select(
+   &quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;salaries&quot;, &quot;average_salary&quot;, &quot;total_salary&quot;)
+df.show(false)</code></pre></div>
+
+<p>Here is the output from the previous sample code. </p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">salaries</th>
+<th style="text-align: left">average_salary</th>
+<th style="text-align: left">total_salary</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">[4200, 6000, 4500, 5200, 5200]</td>
+<td style="text-align: left">5020</td>
+<td style="text-align: left">25100</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">[4200, 6000, 4500, 5200, 5200]</td>
+<td style="text-align: left">5020</td>
+<td style="text-align: left">25100</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">[4200, 6000, 4500, 5200, 5200]</td>
+<td style="text-align: left">5020</td>
+<td style="text-align: left">25100</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[4200, 6000, 4500, 5200, 5200]</td>
+<td style="text-align: left">5020</td>
+<td style="text-align: left">25100</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[4200, 6000, 4500, 5200, 5200]</td>
+<td style="text-align: left">5020</td>
+<td style="text-align: left">25100</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">[5000, 4800, 4800]</td>
+<td style="text-align: left">4866</td>
+<td style="text-align: left">14600</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[5000, 4800, 4800]</td>
+<td style="text-align: left">4866</td>
+<td style="text-align: left">14600</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[5000, 4800, 4800]</td>
+<td style="text-align: left">4866</td>
+<td style="text-align: left">14600</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">[3900, 3500]</td>
+<td style="text-align: left">3700</td>
+<td style="text-align: left">7400</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">[3900, 3500]</td>
+<td style="text-align: left">3700</td>
+<td style="text-align: left">7400</td>
+</tr>
+</tbody>
+</table>
+
+<p>From the output, we can see that column salaries by function <code>collect_list</code> has the same values in a window.</p>
+
+<h2 id="toc_5">Ordered Frame with <code>partitionBy</code> and <code>orderBy</code></h2>
+
+<p>An <strong>Ordered Frame</strong> has the following traits.</p>
+
+<ul>
+<li>Created with <code>Window.partitionBy</code> on one or more columns</li>
+<li>Followed by <code>orderBy</code> on a column</li>
+<li>Each row have a corresponding frame</li>
+<li>The frame will NOT be the same for every row within the same partition. By default, the frame contains all previous rows and the currentRow.</li>
+<li>Aggregate/Window functions can be applied to each row+frame to generate a value</li>
+</ul>
+
+<p>Here is the sample code</p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depName).orderBy(&#39;salary desc)
+val df = empsalary.withColumn(
+  &quot;salaries&quot;, collect_list(&#39;salary) over overCategory).withColumn(
+  &quot;average_salary&quot;, (avg(&#39;salary) over overCategory).cast(&quot;int&quot;)).withColumn(
+  &quot;total_salary&quot;, sum(&#39;salary) over overCategory).select(
+   &quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;salaries&quot;, &quot;average_salary&quot;, &quot;total_salary&quot;)
+df.show(false)</code></pre></div>
+
+<p>Here is the output from the previous sample code. </p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">salaries</th>
+<th style="text-align: left">average_salary</th>
+<th style="text-align: left">total_salary</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">[6000]</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">6000</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[6000, 5200, 5200]</td>
+<td style="text-align: left">5466</td>
+<td style="text-align: left">16400</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[6000, 5200, 5200]</td>
+<td style="text-align: left">5466</td>
+<td style="text-align: left">16400</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">[6000, 5200, 5200, 4500]</td>
+<td style="text-align: left">5225</td>
+<td style="text-align: left">20900</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">[6000, 5200, 5200, 4500, 4200]</td>
+<td style="text-align: left">5020</td>
+<td style="text-align: left">25100</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">[5000]</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">5000</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[5000, 4800, 4800]</td>
+<td style="text-align: left">4866</td>
+<td style="text-align: left">14600</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[5000, 4800, 4800]</td>
+<td style="text-align: left">4866</td>
+<td style="text-align: left">14600</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">[3900]</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">3900</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">[3900, 3500]</td>
+<td style="text-align: left">3700</td>
+<td style="text-align: left">7400</td>
+</tr>
+</tbody>
+</table>
+
+<p>From the output we can see that column salaries by function <code>collect_list</code> does NOT have the same values in a window. 
+The values are only from <code>unboundedPreceding</code> until <code>currentRow</code>. </p>
+
+<p>The <code>average_salary</code> and <code>total_salary</code> are not over the whole department, but average and total for the salary higher or equal than <code>currentRow</code>&#39;s salary.</p>
+
+<h2 id="toc_6">Rank functions in a group</h2>
+
+<p>Here is a table of all the rank functions supported in Spark.</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">function</th>
+<th style="text-align: left">description(within a window partition)</th>
+<th style="text-align: left">note</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">rank</td>
+<td style="text-align: left">rank of rows</td>
+<td style="text-align: left">might have gap, rank will be 1 2 2 4 ..., if the second &amp; third has the same value, the fourth row will take the rank 4, 3 will be jumped.</td>
+</tr>
+<tr>
+<td style="text-align: left">dense_rank</td>
+<td style="text-align: left">dense rank or rows</td>
+<td style="text-align: left">no gaps, values will be like 1 2 2 3 ..., it the second &amp; third has the same value, the fourth row will take the rank 3.</td>
+</tr>
+<tr>
+<td style="text-align: left">row_number</td>
+<td style="text-align: left">row number</td>
+<td style="text-align: left">sequential natural number, the rank will be 1 2 3 4 ..., even if the second &amp; third has the same value.</td>
+</tr>
+<tr>
+<td style="text-align: left">ntile</td>
+<td style="text-align: left">ntile id</td>
+<td style="text-align: left">split partition to ntile, the first group in the window be tile 1, the second group will be tile 2, and so on.</td>
+</tr>
+<tr>
+<td style="text-align: left">percent_rank</td>
+<td style="text-align: left">(rank - 1)/(total_rows - 1)</td>
+<td style="text-align: left">useful like take 20% top people, 0 0.25 0.25 ...</td>
+</tr>
+</tbody>
+</table>
+
+<p>Here is the sample code </p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depName).orderBy(&#39;salary desc)
+val df = empsalary.withColumn(
+  &quot;salaries&quot;, collect_list(&#39;salary) over overCategory).withColumn(
+  &quot;rank&quot;, rank() over overCategory).withColumn(
+  &quot;dense_rank&quot;, dense_rank() over overCategory).withColumn(
+  &quot;row_number&quot;, row_number() over overCategory).withColumn(
+  &quot;ntile&quot;, ntile(3) over overCategory).withColumn(
+  &quot;percent_rank&quot;, percent_rank() over overCategory).select(
+   &quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;rank&quot;, &quot;dense_rank&quot;, &quot;row_number&quot;, &quot;ntile&quot;, &quot;percent_rank&quot;)
+df.show(false)</code></pre></div>
+
+<p>Here is the output from the previous sample code. </p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">rank</th>
+<th style="text-align: left">dense_rank</th>
+<th style="text-align: left">row_number</th>
+<th style="text-align: left">ntile</th>
+<th style="text-align: left">percent_rank</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">0.0</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">0.25</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">0.25</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">0.75</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">1.0</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">0.0</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">0.5</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">0.5</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">0.0</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">1.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>After using the rank function, we can easily filter to get the rows we want. </p>
+
+<p>The following example keeps the top 2 employees salary wise, others have to go. 
+On the sample dataset, Wilma Nilsson and Maja Nilsson have the same salary. 
+Maja has to go according to order, unfortunately. </p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depName).orderBy(&#39;salary desc)
+val df = empsalary.withColumn(
+  &quot;row_number&quot;, row_number() over overCategory).filter(
+  &#39;row_number &lt;= 2).select(
+  &quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;)
+df.show(false)</code></pre></div>
+
+<h2 id="toc_7">lag &amp; lead in a group</h2>
+
+<p><code>lag</code> and <code>lead</code> can be used, when we want to get a relative result between rows.
+The real values we get are depending on the order. </p>
+
+<p><code>lag</code> means getting the value from the previous row; <code>lead</code> means getting the value from the next row.</p>
+
+<p>The following example adding rows with lead and lag salary.</p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depname).orderBy(&#39;salary.desc)
+val df = empsalary.withColumn(
+  &quot;lead&quot;, lead(&#39;salary, 1).over(overCategory)).withColumn(
+  &quot;lag&quot;, lag(&#39;salary, 1).over(overCategory)).select(
+      &quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;lead&quot;, &quot;lag&quot;)
+df.show(false)</code></pre></div>
+
+<p>Here is the output from the previous example</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">lead</th>
+<th style="text-align: left">lag</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left"><strong>null</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">6000</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left"><strong>null</strong></td>
+<td style="text-align: left">4500</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left"><strong>null</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">5000</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left"><strong>null</strong></td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left"><strong>null</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left"><strong>null</strong></td>
+<td style="text-align: left">3900</td>
+</tr>
+</tbody>
+</table>
+
+<p>Notice from the output, the first row in a window with <code>lag</code> will have value <strong>null</strong>, and the last row in a window with <code>lead</code> will have value <strong>null</strong></p>
+
+<p>We can calculate the difference with <code>lead</code> and <code>lag</code> compare the <code>currentRow</code>. While since either the first/last value will be <strong>null</strong>, so one of difference value will be <strong>null</strong>.</p>
+
+<div><pre><code class="language-none">val diff = df.withColumn(
+    &quot;higher_than_next&quot;, &#39;salary - &#39;lead).withColumn(
+    &quot;lower_than_previous&quot;, &#39;lag - &#39;salary)
+diff.show()</code></pre></div>
+
+<p>We can replace the value <strong>null</strong> after getting the difference. Or like this example, using <code>when</code> to calculate the difference, fill in a literal value, e.g 0.</p>
+
+<div><pre><code class="language-none">val diff = df.withColumn(
+  &quot;higher_than_next&quot;, when(&#39;lead.isNull, 0).otherwise(&#39;salary - &#39;lead)).withColumn(
+  &quot;lower_than_previous&quot;, when(&#39;lag.isNull, 0).otherwise(&#39;lag - &#39;salary))
+diff.show()</code></pre></div>
+
+<p>We can, after calculating the difference, find some outliers which have a huge salary gap. 
+The following example takes employees whose salary is double to the next employee.</p>
+
+<div><pre><code class="language-none">diff.filter(&#39;higher_than_next &gt; (lit(2) * &#39;salary)).show(false)</code></pre></div>
+
+<h2 id="toc_8">Running Total</h2>
+
+<p><strong>Running Total</strong> means adding everything up until the <code>currentRow</code></p>
+
+<p>Example code to calculate running total. </p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depname).orderBy(&#39;salary desc)
+
+val running_total = empsalary.withColumn(
+  &quot;rank&quot;, rank().over(overCategory)).withColumn(
+  &quot;costs&quot;, sum(&#39;salary).over(overCategory)).select(
+  &quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;rank&quot;, &quot;costs&quot;)
+running_total.show(false)</code></pre></div>
+
+<p>Here is the output. </p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">rank</th>
+<th style="text-align: left">costs</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">6000</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">16400</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">16400</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">20900</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">25100</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">5000</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">14600</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">14600</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">3900</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">7400</td>
+</tr>
+</tbody>
+</table>
+
+<p>Depending on the example behavior we want, we might get row_number first, then calculate the running total.  </p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depname).orderBy(&#39;salary desc)
+val overRowCategory = Window.partitionBy(&#39;depname).orderBy(&#39;row_number)
+
+val running_total = empsalary.withColumn(
+  &quot;row_number&quot;, row_number() over overCategory).withColumn(
+  &quot;costs&quot;, sum(&#39;salary) over overRowCategory).select(
+  &quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;row_number&quot;, &quot;costs&quot;)
+running_total.show(false)</code></pre></div>
+
+<h2 id="toc_9">Range Frame</h2>
+
+<p>We can use range functions to change frame boundary. </p>
+
+<ul>
+<li>Create with <code>Window.partitionBy</code> on one or more columns</li>
+<li>It usually has <code>orderBy</code> so that the data in the frame is ordered.</li>
+<li>Then followed by <code>rangeBetween</code> or <code>rowsBetween</code></li>
+<li>Each row will have a corresponding frame</li>
+<li>Frame boundary can be controlled by <code>rangeBetween</code> or <code>rowsBetween</code></li>
+<li>Aggregate/Window functions can be applied on each row+frame to generate a single value</li>
+</ul>
+
+<p>There are two range window functions, here are the functions definitions</p>
+
+<div><pre><code class="language-none">def rowsBetween( start: Long, end: Long): WindowSpec
+
+def rangeBetween(start: Long, end: Long): WindowSpec</code></pre></div>
+
+<p>both functions accept two parameters, [start, end] all inclusive. The parameters value can be <code>Window.unboundedPreceding</code>, <code>Window.unboundedFollowing</code>, and <code>Window.currentRow</code>. Or a value relative to <code>Window.currentRow</code>, either negtive or positive.</p>
+
+<p><code>rowsBetween</code> get the frame boundary based on the row index in the window compared to <code>currentRow</code>. here are a few examples and it&#39;s meaning. </p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">function example</th>
+<th style="text-align: left">meaning</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">.rowsBetween(Window.currentRow, 1)</td>
+<td style="text-align: left">currentRow and the next row</td>
+</tr>
+<tr>
+<td style="text-align: left">.rowsBetween(Window.currentRow, 2)</td>
+<td style="text-align: left">currentRow and the next 2 rows</td>
+</tr>
+<tr>
+<td style="text-align: left">.rowsBetween(-1, Window.currentRow)</td>
+<td style="text-align: left">previous row and the currentRow</td>
+</tr>
+<tr>
+<td style="text-align: left">.rowsBetween(-2, Window.currentRow)</td>
+<td style="text-align: left">previous 2 rows and the currentRow</td>
+</tr>
+<tr>
+<td style="text-align: left">.rowsBetween(-1, 1)</td>
+<td style="text-align: left">previous row, the current row and the next row</td>
+</tr>
+<tr>
+<td style="text-align: left">.rowsBetween(Window.currentRow, 1)</td>
+<td style="text-align: left">currentRow and the next row</td>
+</tr>
+<tr>
+<td style="text-align: left">.rowsBetween(Window.unboundedPreceding, Window.currentRow).</td>
+<td style="text-align: left">all previous rows and the currentRow</td>
+</tr>
+<tr>
+<td style="text-align: left">.rowsBetween(Window.currentRow, Window.unboundedFollowing).</td>
+<td style="text-align: left">all previous rows and the currentRow</td>
+</tr>
+<tr>
+<td style="text-align: left">.rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing)</td>
+<td style="text-align: left">all rows in the window</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>rangeBetween</code> get the frame boundary based on row <strong>value</strong> in the window compared to <code>currentRow</code>. The difference compares to <code>rowsBetween</code> is that it compare with <strong>value</strong> of the current row. </p>
+
+<p>Here is the value definition of the constant values used in range functions.</p>
+
+<blockquote>
+<p>Window.currentRow = 0</p>
+
+<p>Window.unboundedPreceding = Long.MinValue</p>
+
+<p>Window.unboundedFollowing = Long.MaxValue</p>
+</blockquote>
+
+<p>Here is an example use directly after <code>Window.partitionBy</code>, without an <code>orderBy</code>. We can see from the output that the data in the window is random.</p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depName).rowsBetween(
+  Window.currentRow, 1)
+val df = empsalary.withColumn(
+  &quot;salaries&quot;, collect_list(&#39;salary) over overCategory).withColumn(
+  &quot;total_salary&quot;, sum(&#39;salary) over overCategory)
+df.select(&quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;salaries&quot;, &quot;total_salary&quot;).show(false)</code></pre></div>
+
+<p>The output from the previous example</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">salaries</th>
+<th style="text-align: left">total_salary</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">[4200, 6000]</td>
+<td style="text-align: left">10200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">[6000, 4500]</td>
+<td style="text-align: left">10500</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">[4500, 5200]</td>
+<td style="text-align: left">9700</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[5200, 5200]</td>
+<td style="text-align: left">10400</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[5200]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">[5000, 4800]</td>
+<td style="text-align: left">9800</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[4800, 4800]</td>
+<td style="text-align: left">9600</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[4800]</td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">[3900, 3500]</td>
+<td style="text-align: left">7400</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">[3500]</td>
+<td style="text-align: left">3500</td>
+</tr>
+</tbody>
+</table>
+
+<p>Here is an example use after <code>Window.partitionBy</code> and <code>orderBy</code>. The data in the window is ordered.</p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depName).orderBy(&#39;salary desc).rowsBetween(
+   Window.currentRow, 1)
+val df = empsalary.withColumn(
+  &quot;salaries&quot;, collect_list(&#39;salary) over overCategory).withColumn(
+  &quot;total_salary&quot;, sum(&#39;salary) over overCategory)
+df.select(&quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;salaries&quot;, &quot;total_salary&quot;).show(false)</code></pre></div>
+
+<p>The output from the previous example</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">salaries</th>
+<th style="text-align: left">total_salary</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">[6000, 5200]</td>
+<td style="text-align: left">11200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[5200, 5200]</td>
+<td style="text-align: left">10400</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[5200, 4500]</td>
+<td style="text-align: left">9700</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">[4500, 4200]</td>
+<td style="text-align: left">8700</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">[4200]</td>
+<td style="text-align: left">4200</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">[5000, 4800]</td>
+<td style="text-align: left">9800</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[4800, 4800]</td>
+<td style="text-align: left">9600</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[4800]</td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">[3900, 3500]</td>
+<td style="text-align: left">7400</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">[3500]</td>
+<td style="text-align: left">3500</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="toc_10">Median</h2>
+
+<p><code>mean</code>(<code>avg</code>) and <code>median</code> are commonly used in statistics. In certain cases <code>median</code> are more robust comparing to mean, since it will filter out outlier values.</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left"></th>
+<th style="text-align: left">mean</th>
+<th style="text-align: left">median</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">definition</td>
+<td style="text-align: left">average value</td>
+<td style="text-align: left">middle value</td>
+</tr>
+<tr>
+<td style="text-align: left">advantage</td>
+<td style="text-align: left">cheap to calculate</td>
+<td style="text-align: left">more robust for anomaly values</td>
+</tr>
+<tr>
+<td style="text-align: left">disadvantage</td>
+<td style="text-align: left">anormal value can have large effect</td>
+<td style="text-align: left">expensive to calcuate</td>
+</tr>
+</tbody>
+</table>
+
+<p>We can either using Window function directly or first calculate the median value, then join back with the original data frame.</p>
+
+<h3 id="toc_11">Use Window to calculate median</h3>
+
+<p>We can use window function to calculate the median value. Here is an example</p>
+
+<div><pre><code class="language-none">val overCategory = Window.partitionBy(&#39;depName).orderBy(&#39;salary).rowsBetween(
+  Window.unboundedPreceding, Window.unboundedFollowing)
+
+val df = empsalary.withColumn(
+  &quot;salaries&quot;, collect_list(&#39;salary) over overCategory).withColumn(
+  &quot;median_salary&quot;, element_at(&#39;salaries, (size(&#39;salaries)/2 + 1).cast(&quot;int&quot;)))
+df.select(&quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;salaries&quot;, &quot;median_salary&quot;).show(false)</code></pre></div>
+
+<p>The output from the previous example</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">salaries</th>
+<th style="text-align: left">median_salary</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[4800, 4800, 5000]</td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[4800, 4800, 5000]</td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">[4800, 4800, 5000]</td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">[3500, 3900]</td>
+<td style="text-align: left">3900</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">[3500, 3900]</td>
+<td style="text-align: left">3900</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="toc_12">Use groupBy then join back to calculate the median value</h3>
+
+<p>We can calculate the median value first, then join back with the original DataFrame. Here is an example</p>
+
+<div><pre><code class="language-none">val dfMedian = empsalary.groupBy(&quot;depName&quot;).agg(
+  sort_array(collect_list(&#39;salary)).as(&quot;salaries&quot;)).select(
+  &#39;depName, &#39;salaries, element_at(&#39;salaries, (size(&#39;salaries)/2 + 1).cast(&quot;int&quot;)).as(&quot;median_salary&quot;))
+val df = empsalary.join(broadcast(dfMedian), &quot;depName&quot;).select(
+    &quot;depName&quot;, &quot;empNo&quot;, &quot;name&quot;, &quot;salary&quot;, &quot;salaries&quot;, &quot;median_salary&quot;)
+df.show(false)</code></pre></div>
+
+<p>The output from the previous example. </p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align: left">depName</th>
+<th style="text-align: left">empNo</th>
+<th style="text-align: left">name</th>
+<th style="text-align: left">salary</th>
+<th style="text-align: left">salaries</th>
+<th style="text-align: left">median_salary</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">1</td>
+<td style="text-align: left">Alice Johansson</td>
+<td style="text-align: left">5000</td>
+<td style="text-align: left">[4800, 4800, 5000]</td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">2</td>
+<td style="text-align: left">Olivia Johansson</td>
+<td style="text-align: left">3900</td>
+<td style="text-align: left">[3500, 3900]</td>
+<td style="text-align: left">3900</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">3</td>
+<td style="text-align: left">Ella Andersson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[4800, 4800, 5000]</td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">sales</td>
+<td style="text-align: left">4</td>
+<td style="text-align: left">Ebba Karlsson</td>
+<td style="text-align: left">4800</td>
+<td style="text-align: left">[4800, 4800, 5000]</td>
+<td style="text-align: left">4800</td>
+</tr>
+<tr>
+<td style="text-align: left">personnel</td>
+<td style="text-align: left">5</td>
+<td style="text-align: left">Lilly Andersson</td>
+<td style="text-align: left">3500</td>
+<td style="text-align: left">[3500, 3900]</td>
+<td style="text-align: left">3900</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">7</td>
+<td style="text-align: left">Astrid Johansson</td>
+<td style="text-align: left">4200</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">8</td>
+<td style="text-align: left">Saga Karlsson</td>
+<td style="text-align: left">6000</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">9</td>
+<td style="text-align: left">Freja Nilsson</td>
+<td style="text-align: left">4500</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">10</td>
+<td style="text-align: left">Wilma Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+<tr>
+<td style="text-align: left">develop</td>
+<td style="text-align: left">11</td>
+<td style="text-align: left">Maja Nilsson</td>
+<td style="text-align: left">5200</td>
+<td style="text-align: left">[4200, 4500, 5200, 5200, 6000]</td>
+<td style="text-align: left">5200</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="toc_13">References</h2>
+
+<ul>
+<li><a href="http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.expressions.WindowSpec">Spark API WindowSpec</a></li>
+<li><a href="http://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.functions">Spark API functions</a></li>
+<li><a href="https://jaceklaskowski.gitbooks.io/mastering-spark-sql/spark-sql-functions-windows.html">mastering-spark-sql</a></li>
+<li><a href="https://databricks.com/blog/2015/07/15/introducing-window-functions-in-spark-sql.html">Introducing Window Functions in Spark SQL</a></li>
+</ul>
+
+
+
+
+</body>
+
+</html>
